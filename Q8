@@ -1,0 +1,23 @@
+import nltk
+from nltk import word_tokenize, pos_tag, ne_chunk
+
+# One-time downloads (safe to leave here)
+nltk.download('punkt', quiet=True)
+nltk.download('averaged_perceptron_tagger', quiet=True)
+nltk.download('maxent_ne_chunker', quiet=True)
+nltk.download('words', quiet=True)
+
+text = input("Enter the sentence: ")
+# e.g., Barack Obama was born in Hawaii and served as the President of the United States.
+
+tokens = word_tokenize(text)
+tags = pos_tag(tokens)
+
+ner_tree = ne_chunk(tags)
+
+print("\n--- NAMED ENTITY RECOGNITION ---")
+for chunk in ner_tree:
+    if hasattr(chunk, "label"):  # it's a NE subtree
+        label = chunk.label()
+        words = [w for (w, pos) in chunk.leaves()]
+        print(f"{label} :", " ".join(words))
