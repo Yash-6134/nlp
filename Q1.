@@ -1,0 +1,40 @@
+# Q.1) Morphology is the study of way of words are built up form smaller meaning bearing units 
+
+from nltk.tokenize import word_tokenize
+from tabulate import tabulate  # pip install tabulate ( This module make the proper box or table for output...)
+
+prefixes = ['un', 're', 'in', 'dis', 'pre']
+suffixes = ['ing', 'ed', 'er', 'ly', 'ness']
+
+text = input("Enter a sentence: ").lower()  # Example : The unhappy children are running quickly
+tokens = word_tokenize(text)
+rows = []
+
+for w in tokens:
+    if not w.isalpha():
+        continue
+
+    lemma = w
+    parts = []
+
+    for p in prefixes:
+        if w.startswith(p):
+            lemma = w[len(p):]
+            parts = [p, lemma]
+            break
+
+    for s in suffixes:
+        if w.endswith(s) and len(w) > len(s):
+            lemma = w[:-len(s)]
+            if lemma.endswith(lemma[-1] * 2):  
+                lemma = lemma[:-1]
+            parts = [lemma, s]
+            break
+
+    if not parts:
+        parts = [w]
+
+    rows.append([w, lemma, parts])
+
+print("\nMorphological Analysis:\n")
+print(tabulate(rows, headers=["Word", "Lemma", "Morphemes"], tablefmt="grid"))
