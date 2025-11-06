@@ -1,0 +1,19 @@
+# Q.7) Implement N-Gram model
+
+from nltk import ngrams, word_tokenize
+
+text = input("Enter a sentence: ")
+
+words = word_tokenize(text)
+
+unigrams = list(ngrams(words, 1))
+print("\nUnigrams:")
+print(unigrams)
+
+bigrams = list(ngrams(words, 2))
+print("\nBigrams:")
+print(bigrams)
+
+trigrams = list(ngrams(words, 3))
+print("\nTrigrams:")
+print(trigrams)
