@@ -1,0 +1,13 @@
+# Q.3) Implement Parts of Speech Tagging 
+
+# (Simple and Easy version)
+
+from nltk import word_tokenize, pos_tag
+from tabulate import tabulate
+
+text = input("Enter a sentence: ")
+
+tags = pos_tag(word_tokenize(text))
+
+print("\nParts of Speech Tagging:\n")
+print(tabulate(tags, headers=["Word", "POS Tag"], tablefmt="grid"))
