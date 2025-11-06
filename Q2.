@@ -1,0 +1,36 @@
+# Q.2) Study and understand the concept of morphology by the use of add and delete tables
+
+from tabulate import tabulate
+
+prefixes = ['un', 're', 'dis']
+suffixes = ['ing', 'ed', 'ly']
+roots = ['happy', 'do', 'appear']
+
+add_table = []
+delete_table = []
+
+# Add prefixes and suffixes
+for r in roots:
+    for p in prefixes:
+        add_table.append([r, p + r, "Added '" + p + "'"])
+    for s in suffixes:
+        add_table.append([r, r + s, "Added '" + s + "'"])
+
+# Delete prefixes and suffixes
+words = ['unhappy', 'redo', 'disappear', 'happily', 'doing']
+for w in words:
+    for p in prefixes:
+        if w.startswith(p):
+            delete_table.append([w, w[len(p):], "Deleted '" + p + "'"])
+    for s in suffixes:
+        if w.endswith(s):
+            root = w[:-len(s)]
+            if w.endswith('ily'):
+                root = w[:-3] + 'y'   
+            delete_table.append([w, root, "Deleted '" + s + "'"])
+
+print("\nADD TABLE:\n")
+print(tabulate(add_table, headers=["Root", "New Word", "Operation"], tablefmt="grid"))
+
+print("\nDELETE TABLE:\n")
+print(tabulate(delete_table, headers=["Word", "Root", "Operation"], tablefmt="grid"))
