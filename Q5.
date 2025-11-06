@@ -1,0 +1,42 @@
+from nltk.tokenize import (
+    WhitespaceTokenizer, WordPunctTokenizer, TreebankWordTokenizer,
+    TweetTokenizer, MWETokenizer, word_tokenize
+)
+from nltk.stem import PorterStemmer, SnowballStemmer, WordNetLemmatizer
+from tabulate import tabulate
+
+text = input("Enter a sentence: ")
+
+# Initialize tokenizers
+ws = WhitespaceTokenizer().tokenize(text)
+wp = WordPunctTokenizer().tokenize(text)
+tb = TreebankWordTokenizer().tokenize(text)
+tw = TweetTokenizer().tokenize(text)
+mwe = MWETokenizer()
+mwe_tokens = mwe.tokenize(word_tokenize(text))
+
+# Display tokenization results
+print("\n--- TOKENIZATION RESULTS ---")
+print(tabulate([
+    ["Whitespace", ws],
+    ["Punctuation", wp],
+    ["Treebank", tb],
+    ["Tweet", tw],
+    ["MWE", mwe_tokens]
+], headers=["Tokenizer Type", "Tokens"], tablefmt="grid"))
+
+# Initialize stemmers and lemmatizer
+porter = PorterStemmer()
+snowball = SnowballStemmer("english")
+lemma = WordNetLemmatizer()
+
+porter_stems = [porter.stem(w) for w in tb]
+snowball_stems = [snowball.stem(w) for w in tb]
+lemmas = [lemma.lemmatize(w.lower()) for w in tb]
+
+print("\n--- STEMMING AND LEMMATIZATION ---")
+print(tabulate(
+    zip(tb, porter_stems, snowball_stems, lemmas),
+    headers=["Word", "Porter Stem", "Snowball Stem", "Lemma"],
+    tablefmt="grid"
+))
